@@ -9,7 +9,7 @@ This python project generates a report from a database.
 Requires a [vagrant](https://www.vagrantup.com/downloads.html) virtual machine.
 And [python3](https://www.python.org/downloads/) installed on virtual machine.
 A [postgresql](https://www.postgresql.org/download/) database and imported sql data.
-Vagrant enviroment should be biult using the vagrantfile that is in the project.
+Vagrant enviroment should be built using the vagrantfile that is in the project.
 
 ## Instalation and usage
 
