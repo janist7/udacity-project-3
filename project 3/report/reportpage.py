@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+''' Runs and generates report page at http://localhost:8000/report/ '''
 
 from flask import Flask, request, redirect, url_for
 
@@ -32,10 +33,11 @@ HTML_WRAP = '''\
 </html>
 '''
 
-# HTML template for an individual comment
+# HTML template a question
 QUESTION = '''\
-    <h2>%s:</h2>%s
+    <h2>%s</h2>%s
 '''
+# HTML template a single result
 ANSWER = '''\
     <p>%s</p>
 '''
@@ -47,14 +49,16 @@ def main():
   answers_list = []
   answer_row = ""
   question = ""
-  
+
+  # Create lists from query results
   for report in newsdb.get_reports():
     report_title.append(report["title"])
     answers_list.append(report["answer"])
 
+  # Add all answers for a question
   for i in range(0,len(report_title)):
     for answer in answers_list[i]:
-      answer_row += "".join(ANSWER % str(answer))
+      answer_row += "".join(ANSWER % str(answer[0] + " - " + str(answer[1])))
     question += "".join(QUESTION % (report_title[i],answer_row))
     answer_row = ""
   html = HTML_WRAP % question

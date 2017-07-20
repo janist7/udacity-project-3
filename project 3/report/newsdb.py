@@ -6,13 +6,14 @@ import psycopg2
 DBNAME = "news"
 
 def get_reports():
+  '''Runs report queries, returns list of directories'''
   result = []
 
   db = psycopg2.connect(database=DBNAME)
   cursor = db.cursor()
 
   cursor.execute(
-    """SELECT title, num || ' views'
+    """SELECT '"' || title || '"', num || ' views'
     FROM articles,
         (SELECT path, count(path) as num
         FROM log
