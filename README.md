@@ -44,7 +44,7 @@ then opening http://localhost:8000/report/.
             TO_CHAR(time,'Month DD, YYYY') as f_time_all,
             count(status) as num_all
         FROM log
-        GROUP BY f_time_all;
+        GROUP BY f_time_all;```
 
 ```CREATE VIEW error_percent AS
     	SELECT
