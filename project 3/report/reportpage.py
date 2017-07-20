@@ -42,6 +42,7 @@ ANSWER = '''\
     <p>%s</p>
 '''
 
+
 @app.route('/report/', methods=['GET'])
 def main():
     '''Generates report page data'''
