@@ -28,32 +28,33 @@ then opening http://localhost:8000/report/.
     	WHERE logs_sub.path = concat('/article/',slug)
     	AND author = authors.id
     	GROUP BY name
-    	ORDER BY author_views DESC;```
+    	ORDER BY author_views DESC;
 
- ```CREATE VIEW log_day AS
+ 	CREATE VIEW log_day AS
         SELECT
             TO_CHAR(time,'Month DD, YYYY') as f_time_day,
             count(status) as num_day
         FROM log
         WHERE status <> '200 OK'
         AND path <> '/'
-        GROUP BY f_time_day;```
+        GROUP BY f_time_day;
 
-```CREATE VIEW log_all AS
+	CREATE VIEW log_all AS
         SELECT
             TO_CHAR(time,'Month DD, YYYY') as f_time_all,
             count(status) as num_all
         FROM log
-        GROUP BY f_time_all;```
+        GROUP BY f_time_all;
 
-```CREATE VIEW error_percent AS
+	CREATE VIEW error_percent AS
     	SELECT
         	f_time_day as day,
         	trunc(CAST(num_day AS DECIMAL)/CAST(num_all AS DECIMAL)*100,2) as percent
     	FROM log_day,log_all
     	WHERE f_time_day = f_time_all
     	GROUP BY f_time_day,num_day,num_all
-    	ORDER BY percent DESC;```
+    	ORDER BY percent DESC;
+```
 
 ## Authors
 
