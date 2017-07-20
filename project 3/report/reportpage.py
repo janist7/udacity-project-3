@@ -6,7 +6,7 @@ import newsdb
 
 app = Flask(__name__)
 
-# HTML template for the forum page
+# HTML template for the report page
 HTML_WRAP = '''\
 <!DOCTYPE html>
 <html>
@@ -25,7 +25,7 @@ HTML_WRAP = '''\
   <body>
     <h1>Report</h1>
     <form method=post>
-      <div><button id="go" type="submit">Generate Report</button></div>
+      <div><button id="go" type="submit">Regenerate Report</button></div>
     </form>
 %s
   </body>
@@ -33,37 +33,37 @@ HTML_WRAP = '''\
 '''
 
 # HTML template for an individual comment
-POST = '''\
+QUESTION = '''\
     <h2>%s:</h2>%s
 '''
-POST_ANSWERS = '''\
+ANSWER = '''\
     <p>%s</p>
 '''
 
-@app.route('/', methods=['GET'])
+@app.route('/report/', methods=['GET'])
 def main():
-  '''Main page of the forum.'''
+  '''Generates report page data'''
   report_title = []
-  answers = []
-  post_answers = ""
-  posts = ""
+  answers_list = []
+  answer_row = ""
+  question = ""
   
   for report in newsdb.get_reports():
     report_title.append(report["title"])
-    answers.append(report["answer"])
+    answers_list.append(report["answer"])
 
   for i in range(0,len(report_title)):
-    for answer in answers[i]:
-      post_answers += "".join(POST_ANSWERS % str(answer))
-    posts += "".join(POST % (report_title[i],post_answers))
-    post_answers = ""
-  html = HTML_WRAP % posts
+    for answer in answers_list[i]:
+      answer_row += "".join(ANSWER % str(answer))
+    question += "".join(QUESTION % (report_title[i],answer_row))
+    answer_row = ""
+  html = HTML_WRAP % question
   return html
 
 
-@app.route('/', methods=['POST'])
+@app.route('/report/', methods=['POST'])
 def post():
-  '''Redirect to regenerate posts.'''
+  '''Redirect to regenerate reports.'''
   return redirect(url_for('main'))
 
 
