@@ -58,19 +58,25 @@ def get_reports():
   Uses 3 views to get result:
 
   CREATE VIEW log_day AS
-        SELECT TO_CHAR(time,'Month DD, YYYY') as f_time_day,count(status) as num_day
+        SELECT
+            TO_CHAR(time,'Month DD, YYYY') as f_time_day,
+            count(status) as num_day
         FROM log
         WHERE status <> '200 OK'
         AND path <> '/'
         GROUP BY f_time_day;
 
   CREATE VIEW log_all AS
-        SELECT TO_CHAR(time,'Month DD, YYYY') as f_time_all,count(status) as num_all
+        SELECT
+            TO_CHAR(time,'Month DD, YYYY') as f_time_all,
+            count(status) as num_all
         FROM log
         GROUP BY f_time_all;
 
   CREATE VIEW error_percent AS
-    SELECT f_time_day as day,trunc(CAST(num_day AS DECIMAL)/CAST(num_all AS DECIMAL)*100,2) as percent
+    SELECT
+        f_time_day as day,
+        trunc(CAST(num_day AS DECIMAL)/CAST(num_all AS DECIMAL)*100,2) as percent
     FROM log_day,log_all
     WHERE f_time_day = f_time_all
     GROUP BY f_time_day,num_day,num_all
@@ -82,7 +88,7 @@ def get_reports():
     WHERE percent > 1;
     """)
     result.append(
-        {"title": "On which days did more than 1% of requests lead to errors? ",
+        {"title": "On which days did more than 1% of requests lead to errors?",
          "answer": cursor.fetchall()}
     )
 
